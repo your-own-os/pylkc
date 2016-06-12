@@ -1,0 +1,429 @@
+## global #####################################################################
+
+DEFAULT_HOSTNAME="(none)"
+
+# global, architecture independent options that controls visibility of many symbols
+EXPERT=y
+EMBEDDED=y          # it has no effect but shows some expert options
+
+
+
+## kernel basic #####################################################################
+
+# basic kernel architecture
+64BIT=y
+/General setup/Kernel compression mode=KERNEL_XZ
+/General setup/Timers subsystem/Timer tick handling=NO_HZ_IDLE
+RELOCATABLE=y
+RANDOMIZE_BASE=y
+/General setup/Choose SLAB allocator=SLAB
+ZONE_DMA=y
+SMP=y
+MAXSMP=y
+SCHED_SMT=y
+SCHED_MC=y
+/Processor type and features/Preemption Model=PREEMPT
+DIRECT_GBPAGES=y
+COMPACTION=y
+MIGRATION=y
+BOUNCE=y
+
+# basic kernel functionality
+SWAP=y
+SYSVIPC=y
+POSIX_MQUEUE=y                       # depends on NET, which is a bad dependency
+CROSS_MEMORY_ATTACH=y
+FHANDLE=y
+HIGH_RES_TIMERS=y
+IKCONFIG=y
+IKCONFIG_PROC=y
+LOG_BUF_SHIFT=15
+LOG_CPU_MAX_BUF_SHIFT=12
+[normal-symbols:CGROUPS]=y
+CHECKPOINT_RESTORE=y
+[symbols:NAMESPACES]=y
+RELAY=y
+CC_OPTIMIZE_FOR_SIZE=y
+COMPAT_BRK=n                       # "n" is the right choice
+COREDUMP=y
+
+# kernel debugging
+SGETMASK_SYSCALL=n
+SYSFS_SYSCALL=n
+SYSCTL_SYSCALL=n
+KALLSYMS=n
+<symbols:EXPERT>=y
+
+# misc configuration
+SCHED_OMIT_FRAME_POINTER=y
+DMI=y
+[symbols:X86_MCE]=y
+X86_16BIT=y                        # wine needs it --fixme, should put in ebuild2
+
+# no debug
+X86_MCE_INJECT=n                           # Machine check injector support
+NUMA_EMU=n                                 # NUMA emulation
+X86_CHECK_BIOS_CORRUPTION=n                # Check for low memory corruption
+CMDLINE_BOOL=n                             # Built-in kernel command line
+
+# no deprecated
+USELIB=n                                   # uselib syscall
+UNUSED_SYMBOLS=n                           # Enable unused/obsolete exported symbols
+SYSFS_DEPRECATED=n
+SYSFS_DEPRECATED_V2=n
+NO_HZ=n                                    # Old Idle dynticks config
+X86_MPPARSE=n                              # Enable MPS table
+#X86_VSYSCALL_EMULATION=n
+AMD_NUMA=n                                 # Old style AMD Opteron NUMA detection
+GART_IOMMU=n                               # Old AMD GART IOMMU support
+ACPI_PROCFS_POWER=n
+PROC_PID_CPUSET=n                          # Include legacy /proc/<pid>/cpuset file
+
+# deprecated by CONFIG_EFIVAR_FS
+EFI_VARS=n
+EFI_RUNTIME_MAP=n
+
+# no workaround
+X86_REROUTE_FOR_BROKEN_BOOT_IRQS=n    # Reroute for broken boot IRQs
+PCI_QUIRKS=n                          # Enable PCI quirk workarounds
+COMPAT_VDSO=n                         # Compat VDSO support
+
+# no experimental
+PCI_CNB20LE_QUIRK=n    # Read CNB20LE Host Bridge Windows
+STAGING=n              # Staging drivers
+
+# no service
+KSM=n
+TRANSPARENT_HUGEPAGE=n
+
+# no rare
+X86_EXTENDED_PLATFORM=n
+X86_INTEL_LPSS=n
+X86_AMD_PLATFORM_DEVICE=n
+IOSF_MBI=n
+X86_X32=n               # X32 is rarely used
+
+# no heuristic
+SCHED_AUTOGROUP=n
+
+# no tester
+MEMTEST=n
+ARCH_MEMORY_PROBE=n                # Enable sysfs memory/probe interface
+#CRYPTO_MANAGER_DISABLE_TESTS=y
+CRYPTO_TEST=n
+CRC32_SELFTEST=n
+GLOB_SELFTEST=n
+XZ_DEC_TEST=n
+CMDLINE_BOOL=n
+
+# no foreign fonts
+FONTS=n
+
+# no uneccessary optimization
+ACPI_REDUCED_HARDWARE_ONLY=n       # Hardware-reduced ACPI support only
+
+# enable some automation
+MAXSMP=y
+
+
+
+## cpu hardware functionality #####################################################################
+
+MICROCODE=y
+X86_MSR=y
+X86_CPUID=y
+[symbols:MTRR]=y
+X86_PAT=y
+
+HOTPLUG_CPU=y
+BOOTPARAM_HOTPLUG_CPU0=y
+
+
+
+## memory hardware functionality #####################################################################
+
+MEMORY_HOTPLUG=y
+MEMORY_HOTREMOVE=y
+
+
+
+## initramfs #####################################################################
+
+BLK_DEV_INITRD=y
+INITRAMFS_SOURCE=""
+RD_XZ=y
+[prompt-regex-symbols:Support initial ramdisks compressed using .*:/General setup]=n
+
+
+
+## kernel module #####################################################################
+
+MODULES=y
+MODULE_UNLOAD=y
+MODVERSIONS=y
+<symbols:MODULES>=n
+
+
+
+## binary format #####################################################################
+
+BINFMT_ELF=y
+BINFMT_SCRIPT=y
+BINFMT_MISC=y
+
+IA32_EMULATION=y
+IA32_AOUT=y
+
+[symbols:/Executable file formats \/ Emulations]=n
+
+
+
+## pci bus #####################################################################
+
+# pci bus functionality
+[normal-symbols:PCI]=m
+[normal-symbols:HOTPLUG_PCI]=m
+ISA_DMA_API=n                           # ISA-style DMA support, it's deprecated
+
+# some hardware that seems should not belong here
+PCCARD=n
+RAPIDIO=n
+X86_SYSFB=y
+
+
+
+## core device driver options ##################################################
+
+# Generic Driver Options
+ALLOW_DEV_COREDUMP=y
+
+UEVENT_HELPER=n                     # no deprecated
+DEVTMPFS_MOUNT=n                    # no service
+PREVENT_FIRMWARE_BUILD=y
+#FW_LOADER=n                         # no deprecated
+FW_LOADER_USER_HELPER_FALLBACK=n    # no deprecated
+
+FIRMWARE_IN_KERNEL=n                # --fixme
+
+[symbols:/Device Drivers/Generic Driver Options]=n
+
+# Plug and Play support
+PNP=y
+
+# Block devices
+[normal-symbols:BLK_DEV]=m
+
+
+
+## network #####################################################################
+
+# no rare network protocol
+ATM=n                           # Asynchronous Transfer Mode (ATM)
+DECNET=n                        # DECnet Support
+X25=n                           # CCITT X.25 Packet Layer
+HAMRADIO=n                      # Amateur Radio support
+CAN=n                           # CAN bus subsystem support
+NET_9P=n                        # Plan 9 Resource Sharing Support
+CAIF=n                          # CAIF Support
+CEPH_LIB=n                      # Ceph core library
+DCB=n                           # Data Center Bridging support
+
+# no deprecated or uneccessary net-filter modules
+IP_NF_IPTABLES=n
+IP_NF_ARPTABLES=n
+IP6_NF_IPTABLES=n
+NETFILTER_XTABLES=n
+IP_SET=n
+IP_VS=n                         # not needed at all
+NETFILTER_NETLINK_QUEUE_CT=n    # it enables some seemingly uneccessary kernel options
+
+# no service
+IP_PNP=n                        # IP: kernel level autoconfiguration
+
+# no deprecated
+AF_RXRPC=n
+WIMAX=n
+
+# fallback selection
+[normal-symbols:/Networking support/Networking options]=y
+[normal-symbols:/Networking support]=m
+
+
+
+## file systems #####################################################################
+
+# global file system function selection
+FS_DAX=y
+FILE_LOCKING=y                                  # Enable POSIX file locking API
+DNOTIFY=y
+INOTIFY_USER=y
+FANOTIFY=y
+QUOTA=y
+QUOTA_NETLINK_INTERFACE=y
+FSCACHE=m
+MISC_FILESYSTEMS=y
+NETWORK_FILESYSTEMS=y
+
+# in kernel file systems
+[symbols:PROC_FS]=y
+SYSFS=y
+[symbols:TMPFS]=y
+HUGETLBFS=y
+CONFIGFS_FS=y
+
+# common file systems
+[normal-symbols:EXT2_FS]=m
+[normal-symbols:EXT3_FS]=m
+[normal-symbols:EXT4_FS]=m
+
+REISERFS_PROC_INFO=n
+[normal-symbols:REISERFS_FS]=m
+
+[normal-symbols:JFS_FS]=m
+[normal-symbols:XFS_FS]=m
+
+BTRFS_FS_CHECK_INTEGRITY=n              # fixme
+BTRFS_FS_RUN_SANITY_TESTS=n             # fixme
+BTRFS_ASSERT=n                          # fixme
+[normal-symbols:BTRFS_FS]=m
+
+# special file systems
+[normal-symbols:AUTOFS4_FS]=m
+[normal-symbols:FUSE_FS]=m
+[normal-symbols:OVERLAY_FS]=m
+[normal-symbols:EFIVAR_FS]=m
+
+SQUASHFS=m
+/File systems/Miscellaneous filesystems/SquashFS 4.0 - .../File decompression options=SQUASHFS_FILE_DIRECT
+/File systems/Miscellaneous filesystems/SquashFS 4.0 - .../Decompressor parallelisation options=SQUASHFS_DECOMP_SINGLE
+SQUASHFS_4K_DEVBLK_SIZE=n
+SQUASHFS_EMBEDDED=n
+<normal-symbols:SQUASHFS>=m
+
+# miscellaneous file systems
+[normal-symbols:ISO9660_FS]=m
+[normal-symbols:UDF_FS]=m
+[normal-symbols:MSDOS_FS]=m
+[normal-symbols:VFAT_FS]=m
+[normal-symbols:HFS_FS]=m
+[normal-symbols:HFSPLUS_FS]=m
+[normal-symbols:CIFS]=m
+
+# native language support
+[symbols:NLS]=m
+NLS_DEFAULT="iso8859-1"
+
+# fallback selection
+[symbols:/File systems]=n
+
+
+
+## device drivers #####################################################################
+
+# general policies:
+[regex-symbols:\bISCSI\b:/Device Drivers]=n              # no ISCSI
+#DRM_I915_FBDEV=y                                         # framebuffer console depends on it, it must be in whitelist until userspace VT is ready
+VGA_ARB=y                                                # VGA Arbitration
+
+# architectural selection
+POWER_SUPPLY=y
+
+# menu: SCSI device support
+SCSI_MQ_DEFAULT=n                                        # unfamiliar
+#SCSI_OSD_INITIATOR=N                                     # unfamiliar
+[normal-symbols:/Device Drivers/SCSI device support]=m
+
+# menu: Serial ATA and Parallel ATA drivers
+[normal-symbols:ATA]=m
+
+# menu: Multiple devices driver support
+[normal-symbols:MD]=m
+
+# menu: IEEE 1394 support
+[normal-symbols:/Device drivers/IEEE 1394 (FireWire) support]=m
+
+# menu: Network device support
+ARCNET=n                                                                                      # unfamiliar
+[symbols:/Device drivers/Network device support/Distributed Switch Architecture drivers]=n    # unfamiliar
+VMXNET3=n
+[normal-symbols:/Device drivers/Network device support]=m
+
+# menu: Input device support
+KEYBOARD_ATKBD=y                         # it seems udev does not load it as module
+KEYBOARD_XTKBD=y                         # same as above
+INPUT_MISC=n
+[normal-symbols:/Device drivers/Input device support]=m
+
+# menu: Character devices
+SERIAL_NONSTANDARD=n
+TTY_PRINTK=n
+IPMI_HANDLER=n                                          # unfamiliar
+TCG_TPM=n                                               # unfamiliar
+TELCLOCK=n                                              # unfamiliar
+XILLYBUS=n                                              # unfamiliar
+
+SERIAL_8250=y
+SERIAL_8250_CONSOLE=y
+#SERIAL_8250_DMA=y
+SERIAL_8250_NR_UARTS=32
+SERIAL_8250_RUNTIME_UARTS=4
+[symbols:/Device drivers/Character devices/Serial drivers]=n
+
+[normal-symbols:/Device drivers/Character devices]=m
+
+# menu: I2C support
+[normal-symbols:/Device drivers/I2C support]=m
+
+# menu: Hardware Monitoring support
+[normal-symbols:HWMON]=m
+
+# menu: Generic Thermal sysfs driver
+[normal-symbols:THERMAL]=m
+
+# menu: Graphics support
+[symbols:AGP]=m
+VGA_ARB=y                                                                # --fixme
+VGA_SWITCHEROO=n                                                         # no deprecated
+
+[symbols:/Device drivers/Graphics support/Direct Rendering Manager]=m
+
+FB=m
+FIRMWARE_EDID=y
+
+[normal-symbols:BACKLIGHT_LCD_SUPPORT]=m
+
+[symbols:/Device drivers/Graphics support/Console display driver support]=m
+
+# menu: Sound card support
+[normal-symbols:SOUND]=m
+
+# menu: HID support
+[normal-symbols:/Device Drivers/HID support]=m
+
+# menu: USB support
+[normal-symbols:USB_SUPPORT]=m
+
+# menu: MMC/SD/SDIO card support
+[normal-symbols:MMC]=m
+
+# menu: LED Support
+[normal-symbols:NEW_LEDS]=m
+
+# menu: Real Time Clock
+RTC_HCTOSYS=n                                            # no service
+RTC_SYSTOHC=n                                            # no service
+[normal-symbols:RTC_CLASS]=m
+
+# menu: DMA Engine support
+[normal-symbols:DMADEVICES]=m
+
+# menu: X86 Platform Specific Device Drivers
+X86_PLATFORM_DEVICES=y
+ACPI_WMI=m
+
+# menu: IOMMU Hardware Support
+[normal-symbols:IOMMU_SUPPORT]=m
+
+# fallback selection
+[symbols:/Device Drivers]=n
+

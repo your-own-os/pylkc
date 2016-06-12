@@ -1,0 +1,12 @@
+DEFAULT_HOSTNAME="(none)"
+EXPERT=y
+EMBEDDED=y
+/General setup/Kernel compression mode=KERNEL_XZ
+LOG_BUF_SHIFT=15
+[normal-symbols:CGROUPS]=y
+SGETMASK_SYSCALL=n
+<symbols:EXPERT>=y
+[normal-symbols:/Networking support]=m
+SQUASHFS=m
+/File systems/Miscellaneous filesystems/SquashFS 4.0 - .../File decompression options=SQUASHFS_FILE_DIRECT
+[regex-symbols:\bISCSI\b:/Device Drivers]=n

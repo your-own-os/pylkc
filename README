@@ -1,0 +1,85 @@
+pylkc
+=====
+
+Python binding for lkc (Linux Kernel Config)
+
+
+Rationale
+=====
+
+pylkc compiles LINUX_SOURCE_DIRECTORY/scripts/kconfig/{zconf.*.c,conf.c} into pylkc.so, and use ctypes to call the C functions in this shared object
+
+
+API
+=====
+
+C                          =>             Python
+enum tristate                             class tristate
+struct menu                               class menu
+struct symbol                             class symbol
+struct property                           class property
+struct expr                               class expr
+
+macro for_all_symbols()                   all_symbols()
+
+conf_parse()                              conf_parse()
+conf_read()                               conf_read()
+conf_write()                              conf_write()
+
+menu_is_empty()                           menu.is_empty()
+menu_is_visible()                         menu.is_visible()
+menu_has_prompt()                         menu.has_prompt()
+menu_get_prompt()                         menu.get_prompt()
+menu_get_root_menu()                      menu.get_root_menu()
+menu_get_parent_menu()                    menu.get_parent_menu()
+menu_has_help()                           menu.has_help()
+menu_get_help()                           menu.get_help()
+
+sym_find()                                sym_find()
+sym_expand_string_value()                 sym_expand_string_value()
+sym_escape_string_value()                 sym_escape_string_value()
+sym_calc_value()                          symbol.calc_value()
+sym_get_type()                            symbol.get_type()
+sym_has_value()                           symbol.has_value()
+sym_is_changable()                        symbol.is_changable()
+sym_tristate_within_range()               symbol.tristate_within_range()
+sym_set_tristate_value()                  symbol.set_tristate_value()
+sym_toggle_tristate_value()               symbol.toggle_tristate_value()
+sym_get_tristate_value()                  symbol.get_tristate_value()
+sym_string_valid()                        symbol.string_valid()
+sym_string_within_range()                 symbol.string_within_range()
+sym_set_string_value()                    symbol.set_string_value()
+sym_get_string_value()                    symbol.get_string_value()
+sym_is_choice()                           symbol.is_choice()
+sym_is_choice_value()                     symbol.is_choice_value()
+sym_is_optional()                         symbol.is_optional()
+sym_get_choice_prop()                     symbol.get_choice_prop()
+sym_get_default_prop()                    symbol.get_default_prop()
+sym_set_choice_value()                    symbol.set_choice_value()
+sym_get_choice_value()                    symbol.get_choice_value()
+
+prop_get_symbol()                         property.get_symbol()
+
+
+Limitation
+=====
+
+pylkc has the same limitation as the C implementation:
+1. depends on compiler and linker
+2. creates .o and .so files in "LINUX_SOURCE_DIRECTORY/scripts/kconfig"
+3. operate one dot config file at a time
+4. can be affected by environment variables, such as "ARCH"
+
+
+Quirks
+=====
+
+the following quriks is not caused by pylkc, it is C interface behavior:
+1. "for sym in pylkc.all_symbols(): sym.calc_value()" should be executed after conf_read()
+2. symbol.calc_value() should be executed after symbol.set_value()
+
+
+License
+=====
+
+GPLv2
