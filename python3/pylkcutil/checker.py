@@ -21,7 +21,6 @@
 # THE SOFTWARE.
 
 import pylkc
-from multiprocessing import Process
 
 
 class CheckError(Exception):
