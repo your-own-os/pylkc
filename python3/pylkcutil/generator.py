@@ -232,12 +232,6 @@ def generate(ksrcDir, baseConfig, ruleFile, baseConfigFilename=None, output=None
         pylkc.release()
 
 
-def generate_in_proc(ksrcDir, ruleList, dstFile, eventHandler=None):
-    p = Process(target=generate, args=(ksrcDir, ruleList, dstFile, eventHandler, ))
-    p.start()
-    p.join()
-
-
 ############## implementations ################################################
 
 

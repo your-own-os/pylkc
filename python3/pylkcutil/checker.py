@@ -76,18 +76,6 @@ def check_values(ksrcDir, cfgFile, valueDict):
         pylkc.release()
 
 
-def check_value_in_proc(ksrcDir, cfgFile, name, value):
-    p = Process(target=check_value, args=(ksrcDir, cfgFile, name, value, ))
-    p.start()
-    p.join()
-
-
-def check_values_in_proc(ksrcDir, cfgFile, valudDict):
-    p = Process(target=check_values, args=(ksrcDir, cfgFile, valudDict, ))
-    p.start()
-    p.join()
-
-
 ############## implementations ################################################
 
 
