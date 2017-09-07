@@ -163,6 +163,7 @@ def is_menu_deprecated(menu_obj):
         "GART_IOMMU",                               # Old AMD GART IOMMU support
         "ACPI_PROCFS_POWER",
         "PROC_PID_CPUSET",                          # Include legacy /proc/<pid>/cpuset file
+        "DNOTIFY",                                  # deprecated by inotify
         # deprecated by CONFIG_EFIVAR_FS
         "EFI_VARS",
         "EFI_RUNTIME_MAP",
