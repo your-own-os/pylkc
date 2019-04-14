@@ -374,6 +374,76 @@ class Test_Linux_4_2(unittest.TestCase):
             os.remove(".config")
 
 
+class Test_Linux_5_0_7(unittest.TestCase):
+    def setUp(self):
+        self.rootDir = os.path.join(curDir, "linux-5.0.7")
+
+    def runTest(self):
+        pylkc.init(self.rootDir)
+        try:
+            pylkc.conf_parse(self.rootDir)
+            pylkc.conf_read(None)
+            util.value_refresh()
+
+            if True:
+                sym = pylkc.sym_find("DEFAULT_HOSTNAME")
+                self.assertIsNotNone(sym)
+                self.assertEqual(sym.get_string_value(), "(none)")
+
+                ret = sym.set_string_value("")
+                self.assertTrue(ret)
+                util.value_refresh()
+                self.assertEqual(sym.get_string_value(), "")
+
+            if True:
+                sym = pylkc.sym_find("EXPERT")
+                self.assertIsNotNone(sym)
+
+                ret = sym.set_tristate_value(pylkc.tristate.yes)
+                self.assertTrue(ret)
+                util.value_refresh()
+                self.assertEqual(sym.get_tristate_value(), pylkc.tristate.yes)
+
+                ret = sym.set_tristate_value(pylkc.tristate.no)
+                self.assertTrue(ret)
+                util.value_refresh()
+                self.assertEqual(sym.get_tristate_value(), pylkc.tristate.no)
+
+            if True:
+                ret = pylkc.sym_find("MODULES").set_tristate_value(pylkc.tristate.yes)
+                self.assertTrue(ret)
+
+                sym = pylkc.sym_find("CRYPTO")
+                self.assertIsNotNone(sym)
+
+                ret = sym.set_tristate_value(pylkc.tristate.yes)
+                self.assertTrue(ret)
+                util.value_refresh()
+                self.assertEqual(sym.get_tristate_value(), pylkc.tristate.yes)
+
+                ret = sym.set_tristate_value(pylkc.tristate.mod)
+                self.assertTrue(ret)
+                util.value_refresh()
+                self.assertEqual(sym.get_tristate_value(), pylkc.tristate.mod)
+
+                ret = sym.set_tristate_value(pylkc.tristate.no)
+                self.assertTrue(ret) 
+                util.value_refresh()
+                self.assertEqual(sym.get_tristate_value(), pylkc.tristate.no)
+
+            if True:
+                menuObj = pylkc.menu_find_by_path("/General setup/Kernel compression mode", True)
+                self.assertIsNotNone(menuObj)
+
+            pylkc.conf_write(None)
+        finally:
+            pylkc.release()
+
+    def tearDown(self):
+        if os.path.exists(".config"):
+            os.remove(".config")
+
+
 class Test_Menu_Structure(unittest.TestCase):
     def setUp(self):
         self.rootDir = os.path.join(curDir, "linux-3.18.1")
@@ -613,7 +683,7 @@ def suite():
     suite.addTest(Test_Path_7())
 
     # error when reading one directory twice, so do a random test
-    r = random.randint(1, 6)
+    r = random.randint(1, 7)
     if r == 1:
         suite.addTest(Test_Linux_3_16())
     elif r == 2:
@@ -625,6 +695,8 @@ def suite():
     elif r == 5:
         suite.addTest(Test_Linux_4_2())
     elif r == 6:
+        suite.addTest(Test_Linux_5_0_7())
+    elif r == 7:
         suite.addTest(Test_Menu_Structure())
     else:
         assert False
