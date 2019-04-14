@@ -414,13 +414,47 @@ def _build_so_file():
     global _kcfg_path
     global _so_file
 
-    shutil.copy2(os.path.join(_kcfg_path, "zconf.tab.c_shipped"), os.path.join(_kcfg_path, "zconf.tab.c"))
-    shutil.copy2(os.path.join(_kcfg_path, "zconf.hash.c_shipped"), os.path.join(_kcfg_path, "zconf.hash.c"))
-    shutil.copy2(os.path.join(_kcfg_path, "zconf.lex.c_shipped"), os.path.join(_kcfg_path, "zconf.lex.c"))
-
-    cmd = ["cc", "-fPIC", "-shared", os.path.join(_kcfg_path, "conf.c"), os.path.join(_kcfg_path, "zconf.tab.c"), "-o", os.path.join(_kcfg_path, "pylkc.so")]
+    # generate zconf.lex.c
+    cmd = ["flex", "-o", os.path.join(_kcfg_path, "zconf.lex.c"), "-L", os.path.join(_kcfg_path, "zconf.l")]
     proc = subprocess.Popen(cmd)
     proc.wait()
+
+    # generate zconf.tab.h
+    subprocess.Popen([
+        "bison",
+        "-o",
+        "/dev/null",
+        "--defines=%s" % (os.path.join(_kcfg_path, "zconf.tab.h")),
+        "-t",
+        "-l",
+        os.path.join(_kcfg_path, "zconf.y")
+    ]).wait()
+
+    # generate zconf.tab.c
+    subprocess.Popen([
+        "bison",
+        "-o",
+        os.path.join(_kcfg_path, "zconf.tab.c"),
+        "-t",
+        "-l",
+        os.path.join(_kcfg_path, "zconf.y")
+    ]).wait()
+
+    # generate pylkc.so
+    subprocess.Popen([
+        "cc",
+        "-fPIC",
+        "-shared",
+        os.path.join(_kcfg_path, "conf.c"),
+        os.path.join(_kcfg_path, "confdata.c"),
+        os.path.join(_kcfg_path, "expr.c"),
+        os.path.join(_kcfg_path, "symbol.c"),
+        os.path.join(_kcfg_path, "preprocess.c"),
+        os.path.join(_kcfg_path, "zconf.lex.c"),
+        os.path.join(_kcfg_path, "zconf.tab.c"),
+        "-o",
+        os.path.join(_kcfg_path, "pylkc.so")
+    ]).wait()
 
 
 def _clean_so_file():
@@ -429,6 +463,3 @@ def _clean_so_file():
     global _so_file
 
     os.unlink(_so_file)
-    os.unlink(os.path.join(_kcfg_path, "zconf.lex.c"))
-    os.unlink(os.path.join(_kcfg_path, "zconf.hash.c"))
-    os.unlink(os.path.join(_kcfg_path, "zconf.tab.c"))
