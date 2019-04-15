@@ -105,10 +105,6 @@ def init_library(kernel_src_path):
         library.sym_find.argtypes = [ctypes.c_char_p]
         library.sym_find.restype = ctypes.POINTER(struct_symbol)
 
-        # const char *sym_expand_string_value(const char *in)
-        library.sym_expand_string_value.argtypes = [ctypes.c_char_p]
-        library.sym_expand_string_value.restype = ctypes.c_char_p
-
         # const char *sym_escape_string_value(const char *in)
         library.sym_escape_string_value.argtypes = [ctypes.c_char_p]
         library.sym_escape_string_value.restype = ctypes.c_char_p

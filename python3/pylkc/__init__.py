@@ -482,6 +482,8 @@ def init(kernel_src_path):
     if os.environ["ARCH"] == "tilegx":
         os.environ["SRCARCH"] = "tile"
     os.environ["KERNELVERSION"] = _get_kernel_version(kernel_src_path)
+    os.environ["srctree"] = kernel_src_path
+    os.environ["CC"] = "gcc"
 
     _all_symbols_list = []
     _sym_menu_dict = dict()
@@ -542,13 +544,6 @@ def sym_lookup(symbol_name, flags):
 def sym_find(symbol_name):
     ret = api.library.sym_find(ctypes.c_char_p(symbol_name.encode("utf_8")))
     return symbol(ret) if ret else None
-
-
-def sym_expand_string_value(in_str):
-    """Expand symbol's names embedded in the string given in argument. Symbols'
-       name to be expanded shall be prefixed by a '$'. Unknown symbol expands to
-       the empty string."""
-    return api.library.sym_expand_string_value(ctypes.c_char_p(in_str.encode("utf_8"))).decode("utf_8")
 
 
 def sym_escape_string_value(in_str):

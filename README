@@ -36,7 +36,6 @@ menu_has_help()                           menu.has_help()
 menu_get_help()                           menu.get_help()
 
 sym_find()                                sym_find()
-sym_expand_string_value()                 sym_expand_string_value()
 sym_escape_string_value()                 sym_escape_string_value()
 sym_calc_value()                          symbol.calc_value()
 sym_get_type()                            symbol.get_type()
