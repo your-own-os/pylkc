@@ -410,30 +410,30 @@ def _build_so_file():
     global _kcfg_path
     global _so_file
 
-    # generate zconf.lex.c
-    cmd = ["flex", "-o", os.path.join(_kcfg_path, "zconf.lex.c"), "-L", os.path.join(_kcfg_path, "zconf.l")]
+    # generate lexer.lex.c
+    cmd = ["flex", "-o", os.path.join(_kcfg_path, "lexer.lex.c"), "-L", os.path.join(_kcfg_path, "lexer.l")]
     proc = subprocess.Popen(cmd)
     proc.wait()
 
-    # generate zconf.tab.h
+    # generate parser.tab.h
     subprocess.Popen([
         "bison",
         "-o",
         "/dev/null",
-        "--defines=%s" % (os.path.join(_kcfg_path, "zconf.tab.h")),
+        "--defines=%s" % (os.path.join(_kcfg_path, "parser.tab.h")),
         "-t",
         "-l",
-        os.path.join(_kcfg_path, "zconf.y")
+        os.path.join(_kcfg_path, "parser.y")
     ]).wait()
 
-    # generate zconf.tab.c
+    # generate parser.tab.c
     subprocess.Popen([
         "bison",
         "-o",
-        os.path.join(_kcfg_path, "zconf.tab.c"),
+        os.path.join(_kcfg_path, "parser.tab.c"),
         "-t",
         "-l",
-        os.path.join(_kcfg_path, "zconf.y")
+        os.path.join(_kcfg_path, "parser.y")
     ]).wait()
 
     # generate pylkc.so
@@ -446,8 +446,8 @@ def _build_so_file():
         os.path.join(_kcfg_path, "expr.c"),
         os.path.join(_kcfg_path, "symbol.c"),
         os.path.join(_kcfg_path, "preprocess.c"),
-        os.path.join(_kcfg_path, "zconf.lex.c"),
-        os.path.join(_kcfg_path, "zconf.tab.c"),
+        os.path.join(_kcfg_path, "lexer.lex.c"),
+        os.path.join(_kcfg_path, "parser.tab.c"),
         "-o",
         os.path.join(_kcfg_path, "pylkc.so")
     ]).wait()
