@@ -157,9 +157,6 @@ class symbol:
     def has_value(self):
         return (self.c_symbol_p.contents.flags & api.SYMBOL_DEF_USER) != 0
 
-    def is_changable(self):
-        return api.library.sym_is_changable(self.c_symbol_p) != bytes([0])
-
     def tristate_within_range(self, tri):
         assert tristate.no <= tri <= tristate.yes
         return api.library.sym_tristate_within_range(self.c_symbol_p, ctypes.c_int(tri)) != bytes([0])

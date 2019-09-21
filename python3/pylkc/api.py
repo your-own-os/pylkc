@@ -141,10 +141,6 @@ def init_library(kernel_src_path):
         library.sym_set_string_value.argtypes = [ctypes.POINTER(struct_symbol), ctypes.c_char_p]
         library.sym_set_string_value.restype = ctypes.c_char
 
-        # bool sym_is_changable(struct symbol *sym)
-        library.sym_is_changable.argtypes = [ctypes.POINTER(struct_symbol)]
-        library.sym_is_changable.restype = ctypes.c_char
-
         # struct property *sym_get_choice_prop(struct symbol *sym)
         library.sym_get_choice_prop.argtypes = [ctypes.POINTER(struct_symbol)]
         library.sym_get_choice_prop.restype = ctypes.POINTER(struct_property)
