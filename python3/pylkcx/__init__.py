@@ -181,6 +181,7 @@ def is_menu_deprecated(menu_obj):
         "VGA_SWITCHEROO",
         "VIDEO_FIXED_MINOR_RANGES",
         "MANDATORY_FILE_LOCKING",                   # Enable Mandatory file locking, dead code
+        "FB",
     ]
     if menu_obj.sym.name in menu_list:
         return True
