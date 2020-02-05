@@ -437,6 +437,7 @@ def _build_so_file():
         "cc",
         "-fPIC",
         "-shared",
+        os.path.join(_kcfg_path, "util.c"),
         os.path.join(_kcfg_path, "conf.c"),
         os.path.join(_kcfg_path, "confdata.c"),
         os.path.join(_kcfg_path, "expr.c"),
