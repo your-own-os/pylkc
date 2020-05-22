@@ -268,7 +268,7 @@ class _Context:
         with open(ruleFile) as f:
             lineList = f.read().split("\n")
         for i in range(0, len(lineList)):
-            line = lineList[i]
+            line = lineList[i].strip()
             if line == "":                      # remove empty line
                 continue
             if line.startswith("#"):            # remove comment
