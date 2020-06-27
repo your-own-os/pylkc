@@ -182,6 +182,7 @@ def is_menu_deprecated(menu_obj):
         "VIDEO_FIXED_MINOR_RANGES",
         "MANDATORY_FILE_LOCKING",                   # Enable Mandatory file locking, dead code
         "FB",
+        "INPUT_JOYDEV",
     ]
     if menu_obj.sym.name in menu_list:
         return True
