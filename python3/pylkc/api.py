@@ -317,7 +317,6 @@ struct_expr._fields_ = [("type", ctypes.c_int),
 
 # struct property {
 #         struct property *next;
-#         struct symbol *sym;
 #         enum prop_type type;
 #         const char *text;
 #         struct expr_value visible;
