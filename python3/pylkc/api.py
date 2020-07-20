@@ -327,7 +327,6 @@ struct_expr._fields_ = [("type", ctypes.c_int),
 #         int lineno;
 # };
 struct_property._fields_ = [("next", ctypes.POINTER(struct_property)),
-                            ("sym", ctypes.POINTER(struct_symbol)),
                             ("type", ctypes.c_int),
                             ("visible", struct_expr_value),
                             ("expr", ctypes.POINTER(struct_expr)),
