@@ -236,8 +236,8 @@ class property:
     TYPE_DEFAULT = 4
     TYPE_CHOICE = 5
     TYPE_SELECT = 6
-    TYPE_RANGE = 7
-    TYPE_ENV = 8
+    TYPE_IMPLY = 7
+    TYPE_RANGE = 8
     TYPE_SYMBOL = 9
 
     def __init__(self, c_property_p):
