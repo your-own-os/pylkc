@@ -153,7 +153,6 @@ def is_menu_deprecated(menu_obj):
 
     menu_list = [
         "USELIB",                                   # uselib syscall
-        "UNUSED_SYMBOLS",                           # Enable unused/obsolete exported symbols
         "SYSFS_DEPRECATED",
         "SYSFS_DEPRECATED_V2",
         "NO_HZ",                                    # Old Idle dynticks config
@@ -182,6 +181,10 @@ def is_menu_deprecated(menu_obj):
         "VIDEO_FIXED_MINOR_RANGES",
         "MANDATORY_FILE_LOCKING",                   # Enable Mandatory file locking, dead code
         "FB",
+        # deprecated by CONFIG_CPU_FREQ_GOV_SCHEDUTIL
+        "CPU_FREQ_GOV_ONDEMAND",
+        "CPU_FREQ_GOV_CONSERVATIVE",
+        # end
         "INPUT_MOUSEDEV",
         "INPUT_JOYDEV",
     ]
@@ -223,7 +226,6 @@ def is_menu_experimental(menu_obj):
     menu_list = [
         "PCI_CNB20LE_QUIRK",                   # Read CNB20LE Host Bridge Windows
         "STAGING",                             # Staging drivers
-        "DRM_I915_PRELIMINARY_HW_SUPPORT",
     ]
     if menu_obj.sym.name in menu_list:
         return True
