@@ -441,6 +441,7 @@ def _build_so_file():
         os.path.join(_kcfg_path, "expr.c"),
         os.path.join(_kcfg_path, "symbol.c"),
         os.path.join(_kcfg_path, "preprocess.c"),
+        os.path.join(_kcfg_path, "menu.c"),
         os.path.join(_kcfg_path, "lexer.lex.c"),
         os.path.join(_kcfg_path, "parser.tab.c"),
         "-o",
