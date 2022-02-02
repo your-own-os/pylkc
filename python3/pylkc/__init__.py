@@ -544,10 +544,6 @@ def sym_find(symbol_name):
     return symbol(ret) if ret else None
 
 
-def sym_escape_string_value(in_str):
-    return api.library.sym_escape_string_value(ctypes.c_char_p(in_str.encode("utf_8"))).decode("utf_8")
-
-
 def menu_find_by_path(menu_path, fuzzy=False):
     global rootmenu
     assert path.isabs(menu_path)
