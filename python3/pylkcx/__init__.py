@@ -176,7 +176,6 @@ def is_menu_deprecated(menu_obj):
         "IP6_NF_IPTABLES",
         "NETFILTER_XTABLES",
         "AF_RXRPC",
-        "WIMAX",
         "VGA_SWITCHEROO",
         "VIDEO_FIXED_MINOR_RANGES",
         "MANDATORY_FILE_LOCKING",                   # Enable Mandatory file locking, dead code
@@ -185,6 +184,7 @@ def is_menu_deprecated(menu_obj):
         "CPU_FREQ_GOV_ONDEMAND",
         "CPU_FREQ_GOV_CONSERVATIVE",
         # end
+        "X86_POWERNOW_K8",                          # too old
         "INPUT_MOUSEDEV",
         "INPUT_JOYDEV",
     ]
