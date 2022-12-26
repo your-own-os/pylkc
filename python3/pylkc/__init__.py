@@ -481,6 +481,7 @@ def init(kernel_src_path):
     os.environ["KERNELVERSION"] = _get_kernel_version(kernel_src_path)
     os.environ["srctree"] = kernel_src_path
     os.environ["CC"] = "gcc"
+    os.environ["RUSTC"] = "rustc"
     os.environ["LD"] = "ld"
 
     _all_symbols_list = []
